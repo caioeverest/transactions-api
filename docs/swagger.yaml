@@ -1,0 +1,226 @@
+basePath: /
+definitions:
+  handler.AccountCreationReq:
+    properties:
+      document:
+        type: string
+    required:
+    - document
+    type: object
+  handler.HeartbeatResponse:
+    properties:
+      database:
+        type: string
+      greetings:
+        type: string
+      stage:
+        type: string
+    type: object
+  handler.JSON:
+    additionalProperties: true
+    type: object
+  handler.TransactionCreationReq:
+    properties:
+      account_id:
+        type: integer
+      amount:
+        type: number
+      operation_type_id:
+        type: integer
+    required:
+    - account_id
+    - amount
+    - operation_type_id
+    type: object
+  model.Account:
+    properties:
+      account_id:
+        type: integer
+      document_number:
+        type: string
+    type: object
+  service.TransactionDTO:
+    properties:
+      account_id:
+        type: integer
+      amount:
+        type: number
+      event_date:
+        type: string
+      operation:
+        type: string
+      transaction_id:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: caioeverest.b@gmail.com
+    name: API Support
+  description: Experiment API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Transactions-api
+  version: "1.0"
+paths:
+  /accounts:
+    get:
+      consumes:
+      - application/json
+      description: find accounts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Account'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.JSON'
+      summary: List all accounts on repository
+      tags:
+      - accounts
+    post:
+      consumes:
+      - application/json
+      description: using a document it's possible create a account
+      parameters:
+      - description: Create account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/handler.AccountCreationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Account'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.JSON'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handler.JSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.JSON'
+      summary: Create a new account
+      tags:
+      - accounts
+  /accounts/{accountID}:
+    get:
+      consumes:
+      - application/json
+      description: get account by its account id
+      parameters:
+      - description: Account ID
+        in: path
+        name: accountID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Account'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.JSON'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.JSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.JSON'
+      summary: Find an account
+      tags:
+      - accounts
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: return the status of the application and connectivity with the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.HeartbeatResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.JSON'
+      summary: Application health check
+      tags:
+      - general
+  /transactions:
+    get:
+      consumes:
+      - application/json
+      description: list transactions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/service.TransactionDTO'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.JSON'
+      summary: List all transactions on repository
+      tags:
+      - transactions
+    post:
+      consumes:
+      - application/json
+      description: create a new transaction
+      parameters:
+      - description: Create a transaction
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/handler.TransactionCreationReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/service.TransactionDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.JSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.JSON'
+      summary: Create a new transaction
+      tags:
+      - transactions
+swagger: "2.0"

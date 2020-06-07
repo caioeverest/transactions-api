@@ -1,0 +1,40 @@
+### Go ###
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.out
+*.test
+/build/
+
+### Go Patch ###
+/vendor/
+/Godeps/
+
+### Goland ###
+.idea/
+cmake-build-*/
+.idea_modules/
+*.iml
+*.ipr
+
+### Vim ###
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+.netrwhist
+*~
+tags
+[._]*.un~
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history

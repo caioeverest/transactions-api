@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: "transactions-api-postgres"
+    image: postgres
+    environment:
+      POSTGRES_DB: "transactionsdb"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./basic_ops.sql:/docker-entrypoint-initdb.d/basic_ops.sql:ro"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  transactions-api:
+    container_name: "transactions-api"
+    build: .
+    image: everest/transactions-api
+    depends_on:
+      - postgres
+    environment:
+      ENV: "production"
+      DB_HOST: "postgres"
+    ports:
+      - "8080:8080"
+    restart_policy:
+      condition: on-failure
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
