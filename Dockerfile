@@ -14,6 +14,7 @@ RUN go build -v -a -installsuffix cgo -o ${APP_NAME} cmd/*.go
 # final stage
 FROM alpine
 ARG APP_NAME
+ENV APP_NAME ${APP_NAME}
 COPY --from=builder /src/${APP_NAME} .
 COPY --from=builder /src/application.yml .
 ENV TZ America/Sao_Paulo
