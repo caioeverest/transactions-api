@@ -29,8 +29,6 @@ services:
       DB_HOST: "postgres"
     ports:
       - "8080:8080"
-    restart_policy:
-      condition: on-failure
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 10s
