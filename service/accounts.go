@@ -16,7 +16,7 @@ func (s *AccountsService) Create(document string) (*model.Account, error) {
 	)
 
 	log.Info("New request for account creation")
-	if err = s.repo.Find(acc); err == nil {
+	if err = s.repo.Find(acc, acc); err == nil {
 		log.Errorf("Document already exist on account %d", acc.AccountID)
 		return nil, DocumentConflictError
 	}

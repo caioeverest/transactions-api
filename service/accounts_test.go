@@ -11,7 +11,7 @@ import (
 func TestAccountsService_CreateShouldFailWhenDocumentAlreadyInUse(t *testing.T) {
 	beforeEach()
 	acc := &model.Account{DocumentNumber: ExtDocument}
-	repoMock.On("Find", acc).Return(nil)
+	repoMock.On("Find", acc, acc).Return(nil)
 	out, err := accTarget.Create(ExtDocument)
 	assert.Equal(t, DocumentConflictError, err)
 	assert.Nil(t, out)
@@ -21,7 +21,7 @@ func TestAccountsService_CreateShouldFailWhenRepositoryReturnError(t *testing.T)
 	beforeEach()
 	e := util.Error("test")
 	acc := &model.Account{DocumentNumber: NewDocument}
-	repoMock.On("Find", acc).Return(util.Error("not found"))
+	repoMock.On("Find", acc, acc).Return(util.Error("not found"))
 	repoMock.On("Save", acc).Return(e)
 	out, err := accTarget.Create(NewDocument)
 	assert.Equal(t, e, err)
@@ -31,7 +31,7 @@ func TestAccountsService_CreateShouldFailWhenRepositoryReturnError(t *testing.T)
 func TestAccountsService_CreateShouldSucceed(t *testing.T) {
 	beforeEach()
 	acc := &model.Account{DocumentNumber: NewDocument}
-	repoMock.On("Find", acc).Return(util.Error("not found"))
+	repoMock.On("Find", acc, acc).Return(util.Error("not found"))
 	repoMock.On("Save", acc).Return(nil)
 	out, err := accTarget.Create(NewDocument)
 	assert.Nil(t, err)

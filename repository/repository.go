@@ -19,8 +19,8 @@ func (ar *Repository) Save(model Model) error {
 	return ar.c.Create(model).Error
 }
 
-func (ar *Repository) Find(query Model) (err error) {
-	err = ar.c.Where(query).Find(query).Error
+func (ar *Repository) Find(query, model Model) (err error) {
+	err = ar.c.Where(query).Find(model).Error
 	return
 }
 

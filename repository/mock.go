@@ -7,7 +7,7 @@ type Mock struct {
 }
 
 func (m *Mock) Save(model Model) error             { return m.Called(model).Error(0) }
-func (m *Mock) Find(model Model) error             { return m.Called(model).Error(0) }
+func (m *Mock) Find(query, model Model) error      { return m.Called(query, model).Error(0) }
 func (m *Mock) FindAll(model Model) error          { return m.Called(model).Error(0) }
 func (m *Mock) FindById(id int, model Model) error { return m.Called(id, model).Error(0) }
 func (m *Mock) Delete(id int) error                { return m.Called(id).Error(0) }
