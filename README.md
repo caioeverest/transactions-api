@@ -43,9 +43,8 @@ To run all you can simply use `make docker-run`. It will automatically start the
 
 The full API documentation can be found at http://localhost:8080/docs
 
-| Variable reference | Environment variable | Default value                                    |
-|--------------------|----------------------|--------------------------------------------------|
 |       Method       |         Path         |                    Description                   |
+|--------------------|----------------------|--------------------------------------------------|
 |         GET        |        /health       |                Return health check               |
 |         GET        |         /docs        |               Open the swagger docs              |
 |        POST        |       /accounts      |               Create a new account               |
